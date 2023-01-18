@@ -1,0 +1,46 @@
+/* Query1-query used for first insight*/
+SELECT
+  a.name,
+  COUNT(al.AlbumId) AS number_of_Albums
+FROM artist a
+JOIN Album al
+  ON a.ArtistId = al.ArtistId
+GROUP BY a.name
+ORDER BY COUNT(al.AlbumId) DESC
+LIMIT 5;
+
+/* Query2-query used for second insight*/
+SELECT
+  g.name Genre,
+  SUM(i.Quantity) AS Purchased_quantity
+FROM Track t
+JOIN genre g
+  ON t.GenreId = g.GenreId
+JOIN InvoiceLine i
+  ON t.trackid = i.TrackId
+GROUP BY g.name
+ORDER BY 2 ;
+
+/* Query3-query used for third insight*/
+select e.FirstName || ' ' || e.LastName as Sales_Support_Agent,sum(i.Quantity) Total_sales from customer c join employee e 
+on c.SupportRepId = e.EmployeeId
+join Invoice inv 
+on c.CustomerId=inv.CustomerId
+join InvoiceLine i 
+on inv.InvoiceId=i.InvoiceId
+group by  e.FirstName || ' ' || e.LastName ;
+
+/* Query4-query used for fourth insight*/
+select 
+  c.CustomerId, 
+  c.FirstName || ' ' || c.LastName as customer_name, 
+  sum(il.unitprice * il.Quantity) as invoice_total 
+from 
+  customer c 
+  join invoice i on c.CustomerId = i.CustomerId 
+  join InvoiceLine il on i.InvoiceId = il.InvoiceId 
+group by 
+  c.FirstName || ' ' || c.LastName 
+order by 
+  invoice_total desc -;
+limit 10;
